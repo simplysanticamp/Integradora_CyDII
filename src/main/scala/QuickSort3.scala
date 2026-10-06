@@ -1,29 +1,30 @@
-class QuickSort3 {
-    def separar3(
-                  inputList: List[Int],
-                  p: Int,
-                  menoresAcc: List[Int],
-                  igualesAcc: List[Int],
-                  mayoresAcc: List[Int]
-                ): (List[Int], List[Int], List[Int]) =
-      inputList match
-        case Nil => (menoresAcc, igualesAcc, mayoresAcc)
-        case head :: tail =>
-          if head < p then
-            separar3(tail, p, head :: menoresAcc, igualesAcc, mayoresAcc)
-          else if head == p then
-            separar3(tail, p, menoresAcc, head :: igualesAcc, mayoresAcc)
-          else
-            separar3(tail, p, menoresAcc, igualesAcc, head :: mayoresAcc)
+import scala.annotation.tailrec
 
-    def quickSort3(inputList: List[Int]): List[Int] =
-      inputList match
-        case Nil => Nil
-        case p :: rest =>
-          val (menores, iguales, mayores) = separar3(rest, p, Nil, Nil, Nil)
-          QuickSort.appendTR(
-            quickSort3(menores),
-            QuickSort.appendTR(p :: iguales, quickSort3(mayores))
-          )
+object QuickSort3 {
+
+    @tailrec
+    def partition3(
+                    inputList: List[Int],
+                    p: Int,
+                    smallerAcc: List[Int],
+                    equalAcc: List[Int],
+                    greaterAcc: List[Int]
+                  ): (List[Int], List[Int], List[Int]) = inputList match {
+      case Nil => (smallerAcc, equalAcc, greaterAcc)
+      case head :: tail =>
+        if (head < p) partition3(tail, p, head :: smallerAcc, equalAcc, greaterAcc)
+        else if (head == p) partition3(tail, p, smallerAcc, head :: equalAcc, greaterAcc)
+        else partition3(tail, p, smallerAcc, equalAcc, head :: greaterAcc)
+    }
+
+    def quickSort3(inputList: List[Int]): List[Int] = inputList match {
+    case Nil => Nil
+    case p :: rest =>
+      val (smaller, equal, greater) = partition3(rest, p, Nil, Nil, Nil)
+      QuickSort.appendTR(
+        quickSort3(smaller),
+        QuickSort.appendTR(p :: equal, quickSort3(greater))
+      )
+    }
 }
 

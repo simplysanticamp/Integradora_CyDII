@@ -1,14 +1,13 @@
+
 class QuickSort3Suite extends munit.FunSuite:
 
-  // --- separar3 ---
-
   test("separar3 con lista vacia retorna tres listas vacias") {
-    assertEquals(QuickSort3.separar3(Nil, 5, Nil, Nil, Nil), (Nil, Nil, Nil))
+    assertEquals(QuickSort3.partition3(Nil, 5, Nil, Nil, Nil), (Nil, Nil, Nil))
   }
 
   test("separar3 clasifica menores, iguales y mayores respecto al pivote") {
     val (menores, iguales, mayores) =
-      QuickSort3.separar3(List(3, 8, 3, 1, 8, 5), 5, Nil, Nil, Nil)
+      QuickSort3.partition3(List(3, 8, 3, 1, 8, 5), 5, Nil, Nil, Nil)
     assertEquals(menores.sorted, List(1, 3, 3))
     assertEquals(iguales, List(5))
     assertEquals(mayores.sorted, List(8, 8))
@@ -16,7 +15,7 @@ class QuickSort3Suite extends munit.FunSuite:
 
   test("separar3 con todos los elementos iguales al pivote") {
     val (menores, iguales, mayores) =
-      QuickSort3.separar3(List(4, 4, 4, 4), 4, Nil, Nil, Nil)
+      QuickSort3.partition3(List(4, 4, 4, 4), 4, Nil, Nil, Nil)
     assertEquals(menores, Nil)
     assertEquals(iguales.length, 4)
     assertEquals(mayores, Nil)
@@ -24,7 +23,7 @@ class QuickSort3Suite extends munit.FunSuite:
 
   test("separar3 respeta los acumuladores recibidos") {
     val (menores, iguales, mayores) =
-      QuickSort3.separar3(List(1, 6), 3, List(0), List(3), List(9))
+      QuickSort3.partition3(List(1, 6), 3, List(0), List(3), List(9))
     assertEquals(menores.sorted, List(0, 1))
     assertEquals(iguales, List(3))
     assertEquals(mayores.sorted, List(6, 9))

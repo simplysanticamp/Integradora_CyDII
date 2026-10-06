@@ -24,7 +24,7 @@ object QuickSort {
     aux(inputList, Nil)
   }
 
-  // Concatena inputL1 ++ inputL2 con recursión de cola
+
   def appendTR(inputL1: List[Int], inputL2: List[Int]): List[Int] = {
     @tailrec
     def reverso(l: List[Int], acc: List[Int]): List[Int] = l match {
@@ -39,8 +39,7 @@ object QuickSort {
     pegar(reverso(inputL1, Nil), inputL2)
   }
 
-  // Parte inputList en una sola pasada: (menores que p, mayores o iguales que p)
-  // Se llama inicialmente con menoresAcc = Nil y mayoresAcc = Nil
+
   @tailrec
   def separar(
                inputList: List[Int],
