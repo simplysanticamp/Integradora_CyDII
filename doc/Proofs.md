@@ -121,3 +121,51 @@ Let `midX` be the x-coordinate of the first point in `R`. Since `S` is sorted by
 
 ```text
 x_p ≤ midX ≤ x_q
+````
+
+for every `p` in `L` and every `q` in `R`.
+
+By the induction hypothesis, the recursive calls correctly return the points sorted by y and the minimum distances `mL` and `mR` for each half.
+
+Let:
+
+```text
+best = min(mL, mR)
+```
+
+1. **The sorted list is correct.** `mergeByAxis` merges the two y-sorted halves. By Lemma 1, the result is a sorted permutation of all points in `S`.
+
+2. **The distance is correct.** A pair of points in `S` can be completely inside `L`, completely inside `R`, or cross the dividing line. The first two cases are already covered by `best`.
+
+For the crossing case, the algorithm creates a strip containing the points whose x-distance from `midX` is smaller than `best`. By Lemma 4, these are exactly the points that could still produce a better crossing pair.
+
+The strip is sorted by y, so Lemma 5 shows that `scanStrip` finds the smallest distance inside it.
+
+If a crossing pair has distance smaller than `best`, both points must be inside the strip. Therefore, the algorithm will find that pair. If no crossing pair improves `best`, then `best` is already the correct answer.
+
+So the final result is exactly:
+
+```text
+m = δ(S)
+```
+
+Therefore, both the sorted list and the minimum distance are correct. ∎
+
+### Theorem — `closestDistance`
+
+For a list `P` with at least two points, `closestDistance(P)` returns the minimum Euclidean distance between two different points, rounded to four decimal places.
+
+**Proof.** First, `sortByAxis(P, X-axis)` sorts the points by x without changing which points are in the list. By the previous theorem, `closestRec` then finds the correct minimum squared distance `δ(P)`.
+
+Since the square root is increasing:
+
+```text
+sqrt(δ(P))
+```
+
+is the actual minimum Euclidean distance.
+
+If two points have the same coordinates, their squared distance is 0, so the final result is also 0.
+
+Finally, the function rounds the result to four decimal places, giving the required answer. ∎
+}
