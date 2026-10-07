@@ -57,10 +57,7 @@ class ClosestPointsSuite extends munit.FunSuite {
   private def expected(points: List[List[Int]]): Double =
     math.round(math.sqrt(referenceSquared(points)) * 10000.0) / 10000.0
 
-  // ---------------------------------------------------------------------------
   // closestDistance examples
-  // ---------------------------------------------------------------------------
-
   test("example 1 from the statement: only two points") {
     assertEqualsDouble(ClosestPoints.closestDistance(List(List(0, 0), List(3, 4))), 5.0, Tolerance)
   }
@@ -70,10 +67,7 @@ class ClosestPointsSuite extends munit.FunSuite {
     assertEqualsDouble(ClosestPoints.closestDistance(points), 1.4142, Tolerance)
   }
 
-  // ---------------------------------------------------------------------------
   // closestDistance edge cases
-  // ---------------------------------------------------------------------------
-
   test("two points with the same coordinates have distance zero") {
     assertEqualsDouble(ClosestPoints.closestDistance(List(List(2, 2), List(2, 2))), 0.0, Tolerance)
   }
@@ -140,10 +134,8 @@ class ClosestPointsSuite extends munit.FunSuite {
       ClosestPoints.closestDistance(List(List(1, 2, 3), List(4, 5)))
     )
   }
-
-  // ---------------------------------------------------------------------------
+  
   // closestDistance when the pair crosses the dividing line
-  // ---------------------------------------------------------------------------
 
   test("closest pair straddles the dividing line") {
     // The closest pair crosses the dividing line
@@ -159,9 +151,7 @@ class ClosestPointsSuite extends munit.FunSuite {
     assertEqualsDouble(ClosestPoints.closestDistance(points), 2.2361, Tolerance)
   }
 
-  // ---------------------------------------------------------------------------
   // closestDistance compared with the reference method
-  // ---------------------------------------------------------------------------
 
   test("matches the reference on 50 small random inputs") {
     @tailrec
@@ -190,9 +180,7 @@ class ClosestPointsSuite extends munit.FunSuite {
     assertEqualsDouble(ClosestPoints.closestDistance(points), expected(points), Tolerance)
   }
 
-  // ---------------------------------------------------------------------------
   // closestDistance with large inputs
-  // ---------------------------------------------------------------------------
 
   test("100000 collinear points in descending order") {
     assertEqualsDouble(ClosestPoints.closestDistance(descendingLine(100000, 10)), 10.0, Tolerance)
@@ -203,9 +191,7 @@ class ClosestPointsSuite extends munit.FunSuite {
     assert(result >= 0.0)
   }
 
-  // ---------------------------------------------------------------------------
   // Helper functions
-  // ---------------------------------------------------------------------------
 
   test("coordinate selects x or y of a point") {
     assertEquals(ClosestPoints.coordinate(List(3, -8), ClosestPoints.XAxis), 3)
