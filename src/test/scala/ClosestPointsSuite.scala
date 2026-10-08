@@ -43,7 +43,7 @@ class ClosestPointsSuite extends munit.FunSuite {
     def against(p: List[Int], rest: List[List[Int]], best: Double): Double = rest match {
       case Nil => best
       case q :: tail =>
-        val dx = p(0).toDouble - q(0).toDouble
+        val dx = p.head.toDouble - q.head.toDouble
         val dy = p(1).toDouble - q(1).toDouble
         against(p, tail, math.min(best, dx * dx + dy * dy))
     }
