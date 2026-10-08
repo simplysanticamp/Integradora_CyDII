@@ -1,3 +1,5 @@
+import Algorithms.{ClosestPoints, ListUtils}
+
 import scala.annotation.tailrec
 
 /** Tests for the closest pair of points algorithm. */

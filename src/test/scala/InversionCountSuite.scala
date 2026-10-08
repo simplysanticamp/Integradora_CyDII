@@ -1,3 +1,5 @@
+import Algorithms.InversionCount
+
 class InversionCountSuite extends munit.FunSuite {
   // --- countInversions: examples from the statement ---
 

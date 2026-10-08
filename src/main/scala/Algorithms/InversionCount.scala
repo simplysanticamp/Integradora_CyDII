@@ -1,3 +1,5 @@
+package Algorithms
+
 import scala.annotation.tailrec
 
 /**

@@ -1,3 +1,5 @@
+import Algorithms.PseudoRandom
+
 import scala.annotation.tailrec
 
 /** Unit tests for the pure pseudo-random generator used to pick pivots. */

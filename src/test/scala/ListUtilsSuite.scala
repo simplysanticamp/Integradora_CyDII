@@ -1,3 +1,5 @@
+import Algorithms.ListUtils
+
 /** Unit tests for the generic list helpers shared by all the algorithms. */
 class ListUtilsSuite extends munit.FunSuite {
 

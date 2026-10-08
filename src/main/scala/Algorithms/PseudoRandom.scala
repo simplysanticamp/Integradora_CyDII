@@ -1,3 +1,5 @@
+package Algorithms
+
 /**
  * Pure pseudo-random numbers
  *

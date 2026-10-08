@@ -1,3 +1,5 @@
+import Algorithms.{QuickSort, QuickSort3}
+
 /** Unit tests for the randomized quick sort with a 3-way partition. */
 class QuickSort3Suite extends munit.FunSuite {
 

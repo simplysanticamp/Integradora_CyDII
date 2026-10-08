@@ -1,3 +1,7 @@
+package Algorithms
+
+import Algorithms.{ListUtils, PseudoRandom}
+
 import scala.annotation.tailrec
 
 /**
