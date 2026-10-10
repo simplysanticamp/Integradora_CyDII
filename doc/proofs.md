@@ -1,6 +1,185 @@
 # Correctness proofs
 
-The proofs are based on structural induction. The recursive functions always work with smaller lists, so the induction is mainly based on the size and structure of the list.
+The proofs are based on structural induction. The recursive functions always work with smaller lists, so the induction is mainly based on the size and structure of the list. Problem 3 contains the auxiliary lemmas for `splitAt` (Lemma 0) and `mergeByAxis`, which the other two problems use.
+
+## Problem 1 — Number of inversions
+
+### Notation
+
+- For a list `l`, `inv(l)` is the number of pairs of positions `i < j` with `l(i) > l(j)`.
+  Equal elements are not an inversion.
+- For two lists `A` and `B`, `cross(A, B)` is the number of pairs `(b, c)` with `b ∈ A`, `c ∈ B`
+  and `b > c`. It depends only on the *multisets* of `A` and `B`, not on the order of their
+  elements.
+- "Sorted" means non-decreasing order, and `l ≈ l'` means that `l'` is a permutation of `l`.
+
+### Specification
+
+`mergeSort(l)` returns `(s, c)` where `s` is a sorted permutation of `l` and `c = inv(l)`.
+
+### Lemma 1 — `mergeAcc` (and `merge`)
+
+Let `L` and `R` be sorted lists, `acc` a list such that `reverse(acc)` is sorted and every element
+of `acc` is `≤` every element of `L` and of `R`, and `k` a counter. If `leftSize = |L|`, then
+
+```text
+mergeAcc(L, leftSize, R, acc, k) = (S, k + cross(L, R))
+```
+
+where `S` is a sorted permutation of `reverse(acc) ++ L ++ R`.
+
+**Proof.** Induction on `|L| + |R|`. The invariant `leftSize = |L|` holds at the start (`merge`
+calls it with `size(left)`) and is preserved by the recursive calls, as shown below.
+
+- **Base case.** If `L = Nil`, the function returns `reverseAppend(acc, R)` and `k`. This list is
+  `reverse(acc) ++ R`, which is sorted by the hypothesis on `acc` and `R`, and `cross(Nil, R) = 0`.
+  If `R = Nil`, the result is `reverseAppend(acc, L)` and `k`, and `cross(L, Nil) = 0`. Both cases
+  satisfy the statement.
+- **Inductive hypothesis.** The statement holds for every call with a smaller `|L| + |R|`.
+- **Inductive step.** Let `L = a :: L'` and `R = b :: R'`.
+    - *Case `a ≤ b`.* The function calls `mergeAcc(L', leftSize − 1, R, a :: acc, k)`. Since `R` is
+      sorted, `b ≤ every element of R`, so `a ≤ every element of R`: `a` is greater than no element
+      of `R`, and therefore `cross(L, R) = cross(L', R)`. The invariant `leftSize − 1 = |L'|` holds. The new
+      accumulator still satisfies the hypothesis: `a ≤ b ≤ R`, and `a ≤ L'` because `L` is sorted.
+      By the inductive hypothesis, the result is `(S, k + cross(L', R)) = (S, k + cross(L, R))`.
+    - *Case `a > b`.* The function calls `mergeAcc(L, leftSize, R', b :: acc, k + leftSize)`.
+      Since `L` is sorted, `b < a ≤ every element of L`, so `b` forms an inversion with all `|L|` elements of `L`
+      and `cross(L, R) = |L| + cross(L, R')`. The new accumulator satisfies the hypothesis: `b < L`, and `b ≤ R'` because `R` is
+      sorted. By the inductive hypothesis, the result is
+      `(S, (k + |L|) + cross(L, R')) = (S, k + cross(L, R))`.
+
+In both cases `S` is a sorted permutation of the same elements, because only the head of `L` or
+of `R` moved to `acc`. ∎
+
+**Corollary.** `merge(L, R)`, with `acc = Nil` and `k = 0`, returns a sorted permutation of
+`L ++ R` and `cross(L, R)`.
+
+### Theorem — `mergeSort`
+
+For every list `l`, `mergeSort(l) = (s, inv(l))` with `s` a sorted permutation of `l`.
+
+**Proof.** Strong induction on `n = |l|`.
+
+- **Base case (`n ≤ 1`).** For `Nil` or a one-element list, the function returns `(l, 0)`. The list
+  is sorted and has no pair of positions, so `inv(l) = 0`.
+- **Inductive hypothesis.** The statement holds for every list shorter than `n`.
+- **Inductive step (`n ≥ 2`).** `splitAt(l, ⌊n/2⌋)` returns `(left, right)` with `left ++ right = l`
+  (Lemma 0 in the Problem 3 section). Since `n ≥ 2`, we have `1 ≤ ⌊n/2⌋ ≤ n − 1`, so both halves
+  are non-empty and **strictly shorter** than `l`. By the inductive hypothesis:
+    - `sortedLeft` is a sorted permutation of `left` and `leftCount = inv(left)`;
+    - `sortedRight` is a sorted permutation of `right` and `rightCount = inv(right)`.
+
+  Every pair of positions `i < j` of `l` is of exactly one of three kinds: both in `left`, both in
+  `right`, or `i` in `left` and `j` in `right` (positions of `left` come before those of `right`).
+  Hence
+
+  ```text
+  inv(l) = inv(left) + inv(right) + cross(left, right)
+  ```
+
+  Since `cross` depends only on the multisets and `sortedLeft ≈ left`, `sortedRight ≈ right`, we
+  have `cross(left, right) = cross(sortedLeft, sortedRight)`. By the Corollary of Lemma 1,
+  `merge(sortedLeft, sortedRight)` returns a sorted permutation `s` of `sortedLeft ++ sortedRight`
+  (that is, of `l`) and `crossCount = cross(sortedLeft, sortedRight)`. The function returns
+  `(s, leftCount + rightCount + crossCount) = (s, inv(l))`. ∎
+
+`countInversions(l) = mergeSort(l)._2 = inv(l)`. The counter is a `Long` because `inv(l)` can be as
+large as `n(n − 1)/2`.
+
+---
+
+## Problem 2 — Quick sort with 3-way partition
+
+### Notation
+
+"Sorted" means non-decreasing order. We write `l ≈ l'` when `l'` is a permutation of `l` (same
+elements with the same multiplicities), and `S ⊎ E ⊎ G` for the multiset union.
+
+### Lemma 1 — `partition3`
+
+`partition3(L, p, S, E, G)` returns `(S', E', G')` such that
+
+- `S' ≈ S ++ [x ∈ L : x < p]`,
+- `E' ≈ E ++ [x ∈ L : x = p]`,
+- `G' ≈ G ++ [x ∈ L : x > p]`,
+
+where `[x ∈ L : P(x)]` are the elements of `L` that satisfy `P`. (The order inside each part is not
+specified.)
+
+**Proof.** Induction on `|L|`.
+
+- **Base case.** If `L = Nil`, the function returns `(S, E, G)`, and no element of `L` is added.
+- **Inductive hypothesis.** The statement holds for any accumulators and any list shorter than `L`.
+- **Inductive step.** Let `L = h :: T`. Exactly one of the three conditions `h < p`, `h = p`,
+  `h > p` is true.
+    - If `h < p`, the call is `partition3(T, p, h :: S, E, G)`. By the inductive hypothesis, the
+      result is `(h :: S ++ [x ∈ T : x < p], E ++ [x ∈ T : x = p], G ++ [x ∈ T : x > p])`, and since
+      `h` is the only element of `L` that is not in `T`, this is the statement for `L`.
+    - The cases `h = p` and `h > p` are the same, adding `h` to `E` or to `G`. ∎
+
+**Corollary.** `partition3(L, p, Nil, Nil, Nil)` splits `L` into three lists with all the elements
+`< p`, `= p` and `> p`, and no element of `L` is lost or duplicated.
+
+### Lemma 2 — `extractAt`
+
+If `0 ≤ i < |l|`, then `extractAt(l, i) = Some((x, rest))` with `x = l(i)`, `|rest| = |l| − 1` and
+`x :: rest ≈ l`.
+
+**Proof.** `splitAt(l, i)` returns `(front, back)` with `front ++ back = l` and `|front| = i`
+(Lemma 0 in the Problem 3 section). Since `i < |l|`, `back` is non-empty, `back = x :: back'`,
+and `x = l(i)`. `append(front, back')` is `front ++ back'`, which is `l` without the element at
+position `i`. ∎
+
+### Lemma 3 — `PseudoRandom.indexBelow`
+
+For any `seed` and any `bound > 0`, `indexBelow(seed, bound)` is in `[0, bound)`. This holds
+because the value is `(next(seed) >>> 1) % bound`: the unsigned shift makes the number
+non-negative, and the remainder by `bound` is smaller than `bound`. ∎
+
+### Theorem — `quickSort3`
+
+For every list `l` and **every** seed, `quickSort3(l, seed)` is a sorted permutation of `l`.
+
+(The seed is quantified in the statement because the recursive calls use different seeds.)
+
+**Proof.** Strong induction on `n = |l|`.
+
+- **Base case (`n ≤ 1`).** For `Nil` or a one-element list, the function returns the list itself,
+  which is sorted and is a permutation of itself.
+- **Inductive hypothesis.** For every list shorter than `n` and every seed, `quickSort3` returns a
+  sorted permutation of it.
+- **Inductive step (`n ≥ 2`).** By Lemma 3 the index is in `[0, n)`, and by Lemma 2
+  `extractAt` returns `Some((pivot, rest))` with `|rest| = n − 1` and `pivot :: rest ≈ l`.
+  (The `None` branch is unreachable.) By the Corollary of Lemma 1,
+  `partition3(rest, pivot, Nil, Nil, Nil) = (smaller, equal, greater)` where every element of
+  `rest` is in exactly one of the three lists:
+    - every element of `smaller` is `< pivot`;
+    - every element of `equal` is `= pivot`;
+    - every element of `greater` is `> pivot`.
+
+  Because `|smaller| ≤ n − 1` and `|greater| ≤ n − 1`, the inductive hypothesis applies to
+  `smaller` with `leftSeed` and to `greater` with `rightSeed`: `sortedSmaller` is a sorted
+  permutation of `smaller` and `sortedGreater` is a sorted permutation of `greater`. The list
+  `equal` is **not** sorted again: it does not need to be, because all its elements are equal.
+
+  The function returns `sortedSmaller ++ (pivot :: equal) ++ sortedGreater` (`append` is
+  concatenation). We check the two properties.
+
+    1. **Sorted.** Each of the three blocks is sorted: the first and the third by the inductive
+       hypothesis, and the middle one because all its elements are equal to `pivot`. Moreover,
+       every element of the first block is `< pivot`, which is the value of the middle block, and
+       every element of the third block is `> pivot`. Therefore the concatenation is sorted.
+    2. **Permutation.** The elements of the result are
+       `smaller ⊎ {pivot} ⊎ equal ⊎ greater`, which is `pivot :: rest ≈ l`.
+
+  ∎
+
+**Termination.** The recursive calls are made on `smaller` and `greater`, both strictly shorter
+than `l`, so the recursion ends. The elements equal to the pivot never re-enter the recursion;
+this is exactly the improvement over the 2-way partition, where the elements equal to the pivot
+go to one side and a list with all elements equal produces a recursive call of size `n − 1`.
+
+---
 
 ## Problem 3 — Closest points
 
@@ -168,4 +347,3 @@ is the actual minimum Euclidean distance.
 If two points have the same coordinates, their squared distance is 0, so the final result is also 0.
 
 Finally, the function rounds the result to four decimal places, giving the required answer. ∎
-}
