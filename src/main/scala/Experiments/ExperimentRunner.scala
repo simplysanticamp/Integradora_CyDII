@@ -1,7 +1,6 @@
 package Experiments
 
 import Algorithms.{ClosestPoints, InversionCount, ListUtils, QuickSort, QuickSort3}
-import Experiments.InputIO
 
 import scala.annotation.tailrec
 
@@ -37,18 +36,16 @@ object ExperimentRunner {
   /**
    * Runs one algorithm once.
    *
-   * ADJUST the four calls below to the names and result types of your own objects.
-   *
    * @param algorithm the algorithm to run
    * @param ints      the integer input (used by the sorting and inversion algorithms)
    * @param points    the point input (used by the closest points algorithm)
    * @return a number derived from the output, used only to keep the work alive
    */
   def execute(algorithm: Algorithm, ints: List[Int], points: List[List[Int]]): Long = algorithm match {
-    case Algorithms.QuickSort   => ListUtils.size(QuickSort.quickSort(ints)).toLong
-    case Algorithms.QuickSort3 => ListUtils.size(QuickSort3.quickSort3(ints)).toLong
-    case Algorithms.InversionCount    => InversionCount.countInversions(ints)
-    case Algorithms.ClosestPoints     => (ClosestPoints.closestDistance(points) * 10000).toLong
+    case Algorithm.QuickSortTwoWay => ListUtils.size(QuickSort.quickSort(ints)).toLong
+    case Algorithm.QuickSortThreeWay => ListUtils.size(QuickSort3.quickSort3(ints)).toLong
+    case Algorithm.InversionCount => InversionCount.countInversions(ints)
+    case Algorithm.ClosestPoints => (ClosestPoints.closestDistance(points) * 10000).toLong
   }
 
   /**

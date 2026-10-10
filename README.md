@@ -1,14 +1,14 @@
-# Integradora CyDII
+# Integradora CyDII — Integrative Assignment 1
 
 **Team:** The Drink Team
-**Course:** Computación y Estructuras Discretas II
+**Course:** Computación y Estructuras Discretas II, 2026-2
 
 ## Team members
 
-| Name           | GitHub          |
-| -------------- | --------------- |
-| Santiago Campo | simplysanticamp |
-| Jose Oñate     | Onatejose       |
+| Name           | GitHub                                                |
+| -------------- | ----------------------------------------------------- |
+| Santiago Campo | [simplysanticamp](https://github.com/simplysanticamp) |
+| Jose Oñate     | [Onatejose](https://github.com/Onatejose)             |
 
 ## Overview
 
@@ -30,7 +30,42 @@ pseudo-random pivot selection).
 ```
 ├── build.sbt
 ├── README.md
-├── doc/    # test design, proofs, complexity, experiments report, AI log
+├── doc/
+│   ├── test-design.md
+│   ├── proofs.md
+│   ├── complexity.md
+│   ├── experiments-report.md
+│   └── ai-log.md
+├── results/                    # timings.csv and environment.txt of the experiments
 └── src/
     ├── main/scala/
+    │   ├── Algorithms/         # the three problems and their helpers
+    │   └── Experiments/        # input generation, timing and the experiment runner
     └── test/scala/
+```
+
+## Usage
+
+Requires JDK 17+ and [sbt](https://www.scala-sbt.org/).
+
+```bash
+sbt compile
+sbt test
+```
+
+### Experiments
+
+```bash
+sbt "runMain Experiments.Main quick"   # sizes up to 10^4, to check that everything works
+sbt "runMain Experiments.Main full"    # all sizes, up to 10^6
+```
+
+Each size is run 10 times, the first run is discarded and the rest are averaged.
+Times are written to `results/timings.csv` and the machine description to
+`results/environment.txt`. Generated inputs are cached in `data/`.
+
+## Documentation
+
+See [`doc/`](doc/): [test design](doc/test-design.md), [proofs](doc/proofs.md),
+[complexity](doc/complexity.md), [experiments report](doc/experiments-report.md) and
+[AI usage log](doc/ai-log.md).
