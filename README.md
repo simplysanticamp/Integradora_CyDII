@@ -67,5 +67,5 @@ Times are written to `results/timings.csv` and the machine description to
 ## Documentation
 
 See [`doc/`](doc/): [test design](doc/test-design.md), [proofs](doc/proofs.md),
-[complexity](doc/complexity.md), [experiments report](doc/experiments-report.md) and
-[AI usage log](doc/ai-log.md).
+[complexity](doc/complexity.md), [experiments report](doc/Experiment-report.md) and
+[AI usage log](doc/Ai-log.md).
