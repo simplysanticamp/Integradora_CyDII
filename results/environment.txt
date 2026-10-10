@@ -1,0 +1,8 @@
+os: Windows 11 10.0
+arch: amd64
+java: 17.0.18
+logical processors: 16
+max heap (MB): 4096
+cpu: 12th Gen Intel(R) Core(TM) i5-12500H (12 cores, 16 logical processors)
+ram: 16 GB
+jvm options: -Xmx4g

@@ -1,0 +1,37 @@
+algorithm,scenario,theory,model,a,b,rel_rmse_pct,r2,is_best,empirical_exponent
+quicksort_2way,random,n log n,n,6.601423e-04,7.287643e-01,24.46,0.85516,False,0.971
+quicksort_2way,random,n log n,n log n,4.212477e-05,1.088351e+00,15.10,0.97100,True,0.971
+quicksort_2way,random,n log n,n^2,1.308747e-09,2.257270e+00,55.27,0.85034,False,0.971
+quicksort_2way,sorted,n log n,n,3.056349e-04,0.000000e+00,39.44,0.52886,False,1.191
+quicksort_2way,sorted,n log n,n log n,2.507935e-05,0.000000e+00,20.61,0.85623,True,1.191
+quicksort_2way,sorted,n log n,n^2,1.015624e-09,2.437586e-01,65.62,0.81536,False,1.191
+quicksort_2way,reversed,n log n,n,2.925928e-04,0.000000e+00,36.31,0.53912,False,1.177
+quicksort_2way,reversed,n log n,n log n,2.336616e-05,0.000000e+00,18.22,0.84238,True,1.177
+quicksort_2way,reversed,n log n,n^2,9.689321e-10,2.477036e-01,63.82,0.85536,False,1.177
+quicksort_2way,few_distinct,n^2,n,8.067432e-04,0.000000e+00,75.32,-0.30823,False,2.023
+quicksort_2way,few_distinct,n^2,n log n,8.398584e-05,0.000000e+00,71.96,-0.26907,False,2.023
+quicksort_2way,few_distinct,n^2,n^2,5.957019e-07,3.452856e-02,8.11,0.97587,True,2.023
+quicksort_3way,random,n log n,n,4.340932e-04,0.000000e+00,34.44,0.46769,False,1.145
+quicksort_3way,random,n log n,n log n,3.046087e-05,7.495851e-02,27.92,0.67822,True,1.145
+quicksort_3way,random,n log n,n^2,1.616805e-09,4.585820e-01,59.78,0.88737,False,1.145
+quicksort_3way,sorted,n log n,n,4.183916e-04,0.000000e+00,43.00,0.51110,False,1.190
+quicksort_3way,sorted,n log n,n log n,3.538919e-05,0.000000e+00,22.89,0.85749,True,1.190
+quicksort_3way,sorted,n log n,n^2,1.431623e-09,3.036078e-01,66.23,0.82822,False,1.190
+quicksort_3way,reversed,n log n,n,3.849828e-04,0.000000e+00,42.75,0.48311,False,1.199
+quicksort_3way,reversed,n log n,n log n,3.243376e-05,0.000000e+00,23.67,0.82586,True,1.199
+quicksort_3way,reversed,n log n,n^2,1.377564e-09,2.977901e-01,65.22,0.84962,False,1.199
+quicksort_3way,few_distinct,n,n,8.505565e-05,0.000000e+00,43.42,0.64448,False,1.170
+quicksort_3way,few_distinct,n,n log n,7.195256e-06,0.000000e+00,22.74,0.96169,True,1.170
+quicksort_3way,few_distinct,n,n^2,2.229727e-10,5.859829e-02,69.82,0.81757,False,1.170
+inversion_count,random,n log n,n,5.442252e-04,3.825671e-01,25.84,0.78773,False,1.007
+inversion_count,random,n log n,n log n,3.506787e-05,6.330472e-01,17.74,0.92955,True,1.007
+inversion_count,random,n log n,n^2,1.223057e-09,1.371498e+00,57.64,0.85707,False,1.007
+inversion_count,sorted,n log n,n,2.853007e-04,0.000000e+00,28.90,0.67644,False,1.136
+inversion_count,sorted,n log n,n log n,2.123669e-05,9.963153e-03,13.82,0.91891,True,1.136
+inversion_count,sorted,n log n,n^2,7.652767e-10,2.877163e-01,63.43,0.84759,False,1.136
+inversion_count,reversed,n log n,n,2.958194e-04,0.000000e+00,30.07,0.71255,False,1.119
+inversion_count,reversed,n log n,n log n,2.225578e-05,0.000000e+00,14.44,0.94579,True,1.119
+inversion_count,reversed,n log n,n^2,7.451644e-10,2.370074e-01,65.58,0.86872,False,1.119
+closest_points,points,n log n,n,1.526015e-03,4.626778e-01,31.95,0.73787,False,1.063
+closest_points,points,n log n,n log n,1.036512e-04,1.110700e+00,20.50,0.92047,True,1.063
+closest_points,points,n log n,n^2,3.660503e-09,3.521813e+00,57.06,0.83857,False,1.063
